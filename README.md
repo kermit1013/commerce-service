@@ -29,3 +29,21 @@ spring.datasource.password=<password>
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 ```
+
+
+## 資料表設計
+|    users    |                 |              |                          |
+|:-----------:|:---------------:|:------------:|:------------------------:|
+| primary_key | user_id         | INT          | NOT NULL AUTO_INCREMENT  |
+|             | first_name      | VARCHAR(50)  | NOT NULL                 |
+|             | last_name       | VARCHAR(50)  | NOT NULL                 |
+|             | email           | VARCHAR(50)  | NOT NULL                 |
+|             | birthday        | DATE         |                          |
+|             | Address         | VARCHAR(255) | NOT NULL                 |
+|             | city            | VARCHAR(50)  | NOT NULL                 |
+|             | state           | VARCHAR(50)  | NOT NULL                 |
+|             | zipcode         | VARCHAR(10)  | NOT NULL                 |
+|             | password        | VARCHAR(20)  | NOT NULL                 |
+|             | has_newsletter  | BOOLEAN      | NOT NULL DEFALT 1        |
+|             | last_login_time | DATETIME     | DEFALT CURRENT_TIMESTAMP |
+|             | is_deleted      | BOOLEAN      | NOT NULL DEFALT 0        |
