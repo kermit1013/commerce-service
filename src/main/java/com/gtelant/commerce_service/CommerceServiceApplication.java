@@ -1,5 +1,6 @@
 package com.gtelant.commerce_service;
 
+import com.gtelant.commerce_service.models.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
