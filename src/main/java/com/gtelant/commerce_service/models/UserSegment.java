@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserSegment {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -31,3 +32,31 @@ public class UserSegment {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 }
+
+
+/* 複合主鍵
+@Entity
+@Table(name = "user_segments")
+@IdClass(UserSegment.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserSegment {
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "segment_id")
+    private Segment segment;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+}
+*/
