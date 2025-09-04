@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,7 +61,7 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserById(@PathVariable int id) {
         Optional<User> user = userService.getUserById(id);
         if (user.isPresent()) {
-            ResponseEntity.ok(userMapper.toUserResponse(user.get()));
+           return ResponseEntity.ok(userMapper.toUserResponse(user.get()));
         }
         return ResponseEntity.notFound().build();
     }
@@ -100,10 +99,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Assign a segment to user", description = "Assign a segment to user by their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully assigned segment")
+    })
     @PostMapping("/{id}/segments/{segmentId}")
     public ResponseEntity<Void> assignSegmentToUser(@PathVariable int id, @PathVariable int segmentId) {
-        //todo
-        //對user_segments insert rows
+        userService.assignSegmentToUser(id, segmentId);
         return ResponseEntity.noContent().build();
     }
 }
