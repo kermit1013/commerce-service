@@ -55,6 +55,7 @@ public class UserMapper {
         dto.setId(userSegment.getId());
         dto.setUserId(userSegment.getUser().getId());
         dto.setSegmentId(userSegment.getSegment().getId());
+        dto.setName(userSegment.getSegment().getName());
         return dto;
     }
 }

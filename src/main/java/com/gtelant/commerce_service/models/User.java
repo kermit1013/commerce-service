@@ -1,5 +1,6 @@
 package com.gtelant.commerce_service.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -60,6 +61,7 @@ public class User {
     private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonManagedReference
     private List<UserSegment> userSegments;
 }
 // 登入時...

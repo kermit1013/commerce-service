@@ -34,11 +34,11 @@ public class UserController {
 
     @Operation(summary = "Get all users", description = "Returns a list of all users")
     @GetMapping
-    public List<UserResponse> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
 
-        return userService.getAllUsers().stream()
+        return ResponseEntity.ok( userService.getAllUsers().stream()
                 .map(userMapper::toUserResponse)
-                .toList();
+                .toList());
     }
 
 

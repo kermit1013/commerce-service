@@ -1,6 +1,7 @@
 package com.gtelant.commerce_service.dtos;
 
 import com.gtelant.commerce_service.models.User;
+import com.gtelant.commerce_service.models.UserSegment;
 import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,11 +23,4 @@ public class UserResponse {
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
     private List<UserSegmentResponse> userSegments;
-
-    public UserResponse getUserResponse(User user) {
-        UserResponse userResponse =new UserResponse();
-        userResponse.setId(user.getId());
-//        ...
-        return userResponse;
-    }
 }

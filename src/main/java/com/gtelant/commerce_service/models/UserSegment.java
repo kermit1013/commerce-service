@@ -1,5 +1,6 @@
 package com.gtelant.commerce_service.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,12 @@ public class UserSegment {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonBackReference
     @JoinColumn(name = "segment_id")
     private Segment segment;
 
