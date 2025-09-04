@@ -1,9 +1,7 @@
 package com.gtelant.commerce_service.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -49,7 +47,7 @@ public class User {
     private String role;
 
     @Column(name = "has_newsletter")
-    private String hasNewsletter;
+    private boolean hasNewsletter;
 
     @Column(name = "last_seen_at")
     private LocalDateTime lastSeenAt;
@@ -63,7 +61,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserSegment> userSegments;
-
 }
 // 登入時...
 // FetchType.LAZY

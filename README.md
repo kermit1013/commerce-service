@@ -11,6 +11,8 @@
   - 用戶管理
   - 戶標籤管理
 - 評論模組
+## Swagger
+> http://localhost:8080/swagger-ui/index.html
 
 ## 初始化專案
 ### SQL連線設定
