@@ -6,12 +6,15 @@ import com.gtelant.commerce_service.models.UserSegment;
 import com.gtelant.commerce_service.repositories.SegmentRepository;
 import com.gtelant.commerce_service.repositories.UserRepository;
 import com.gtelant.commerce_service.repositories.UserSegmentRepository;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,11 +33,37 @@ public class UserService {
     }
 
 
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(String query, Boolean hasNewsletter, Integer segmentId) {
         return userRepository.findAll();
     }
-    public Page<User> getAllUsers(PageRequest pageRequest) {
-        return userRepository.findAll(pageRequest);
+
+    public Page<User> getAllUsers(String query, Boolean hasNewsletter, Integer segmentId, PageRequest pageRequest) {
+        Specification<User> spec = userSpecification(query, hasNewsletter, segmentId);
+        return userRepository.findAll(spec, pageRequest);
+    }
+
+    private Specification<User> userSpecification(String queryName, Boolean hasNewsletter, Integer segmentId) {
+        return ((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if(queryName != null && !queryName.isEmpty()) {
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), "%"+ queryName.toLowerCase()+"%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), "%"+ queryName.toLowerCase()+"%")
+                ));
+            }
+            if(hasNewsletter != null) {
+                predicates.add(criteriaBuilder.equal(root.get("hasNewsletter"), hasNewsletter));
+            }
+
+            if(segmentId != null) {
+                Join<User , UserSegment> userUserSegmentJoin = root.join("userSegments");
+                predicates.add(criteriaBuilder.equal(userUserSegmentJoin.get("segment").get("id"), segmentId));
+            }
+
+            Predicate[] predicateArray = predicates.toArray(new Predicate[0]);
+            return criteriaBuilder.and(predicateArray);
+        });
     }
 
     public Optional<User> getUserById(int id) {

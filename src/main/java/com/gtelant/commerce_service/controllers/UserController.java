@@ -34,9 +34,13 @@ public class UserController {
 
     @Operation(summary = "Get all users", description = "Returns a list of all users")
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers(
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(required = false) Boolean hasNewsletter,
+            @RequestParam(required = false) Integer segmentId
+    ) {
 
-        return ResponseEntity.ok( userService.getAllUsers().stream()
+        return ResponseEntity.ok( userService.getAllUsers(query, hasNewsletter, segmentId).stream()
                 .map(userMapper::toUserResponse)
                 .toList());
     }
@@ -46,10 +50,13 @@ public class UserController {
     @GetMapping("/page")
     public Page<UserResponse> getAllUsersPage(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "") String query,
+            @RequestParam(required = false) Boolean hasNewsletter,
+            @RequestParam(required = false) Integer segmentId
     ) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return userService.getAllUsers(pageRequest).map(userMapper::toUserResponse);
+        return userService.getAllUsers(query, hasNewsletter, segmentId, pageRequest).map(userMapper::toUserResponse);
     }
 
     @Operation(summary = "Get user by ID", description = "Returns a single user by their ID")
