@@ -45,6 +45,8 @@ public class UserService {
     private Specification<User> userSpecification(String queryName, Boolean hasNewsletter, Integer segmentId) {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            // if predicates.size() = 3 how many "AND"? => 2
+            //if predicates.size() = 8  how many "AND"? => 7
 
             if(queryName != null && !queryName.isEmpty()) {
                 predicates.add(criteriaBuilder.or(
@@ -59,6 +61,12 @@ public class UserService {
             if(segmentId != null) {
                 Join<User , UserSegment> userUserSegmentJoin = root.join("userSegments");
                 predicates.add(criteriaBuilder.equal(userUserSegmentJoin.get("segment").get("id"), segmentId));
+
+                //如果 userSegment有 屬性segmentId 則可以直接使用
+                //predicates.add(criteriaBuilder.equal(userUserSegmentJoin.get("segmentId"), segmentId));
+
+                //如果欲查詢Segment參數為字串（name）=> segmentName
+                //predicates.add(criteriaBuilder.equal(userUserSegmentJoin.get("segment").get("name"), segmentName)
             }
 
             Predicate[] predicateArray = predicates.toArray(new Predicate[0]);
