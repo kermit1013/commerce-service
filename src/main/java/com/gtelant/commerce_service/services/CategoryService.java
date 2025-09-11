@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -23,5 +24,10 @@ public class CategoryService {
             return categoryRepository.save(category);
         }
         return null;
+    }
+
+    public Category findById(int id) {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        return categoryOptional.orElseThrow(() -> new RuntimeException("category not found"));
     }
 }

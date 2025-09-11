@@ -2,22 +2,34 @@ package com.gtelant.commerce_service.mappers;
 
 import com.gtelant.commerce_service.dtos.ProductRequest;
 import com.gtelant.commerce_service.dtos.ProductResponse;
+import com.gtelant.commerce_service.models.Category;
 import com.gtelant.commerce_service.models.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     public ProductResponse toProductResponse(Product product) {
         ProductResponse dto = new ProductResponse();
         dto.setId(product.getId());
+        dto.setWidth(product.getWidth());
         dto.setReference(product.getReference());
         dto.setDescription(product.getDescription());
         dto.setHeight(product.getHeight());
         dto.setPrice(product.getPrice());
+        dto.setStock(product.getStock());
+        dto.setSales(product.getSales());
+        dto.setThumbnailUrl(product.getThumbnailUrl());
+        dto.setImageUrl(product.getImageUrl());
+        dto.setCategory(categoryMapper.toCategoryResponse(product.getCategory()));
         return dto;
     }
 
-    public Product toProduct(ProductRequest dto) {
+    public Product toProduct(ProductRequest dto, Category category) {
         Product product = new Product();
         product.setReference(dto.getReference());
         product.setDescription(dto.getDescription());
@@ -28,6 +40,7 @@ public class ProductMapper {
         product.setSales(dto.getSales());
         product.setStock(dto.getStock());
         product.setWidth(dto.getWidth());
+        product.setCategory(category);
 
         return product;
     }

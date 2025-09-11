@@ -23,5 +23,5 @@ public class ProductRequest {
 
     private String description;
 
-    private int category_id;
+    private int categoryId;
 }
