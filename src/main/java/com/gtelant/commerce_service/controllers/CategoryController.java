@@ -43,7 +43,6 @@ public class CategoryController {
                 })
                 .toList();
 
-
         return ResponseEntity.ok(responses);
     }
 
