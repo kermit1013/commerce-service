@@ -1,10 +1,8 @@
 package com.gtelant.commerce_service.controllers;
 
-import com.gtelant.commerce_service.dtos.CategoryRequest;
-import com.gtelant.commerce_service.dtos.CategoryResponse;
-import com.gtelant.commerce_service.dtos.UserRequest;
-import com.gtelant.commerce_service.dtos.UserResponse;
+import com.gtelant.commerce_service.dtos.*;
 import com.gtelant.commerce_service.mappers.CategoryMapper;
+import com.gtelant.commerce_service.mappers.ProductMapper;
 import com.gtelant.commerce_service.models.Category;
 import com.gtelant.commerce_service.models.User;
 import com.gtelant.commerce_service.services.CategoryService;
@@ -27,12 +25,26 @@ public class CategoryController {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     @Operation(summary = "Get all categories", description = "Returns a list of all categories")
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategories().stream()
-                .map(categoryMapper::toCategoryResponse)
-                .toList());
+       List<CategoryResponse> responses= categoryService.getAllCategories().stream()
+                .map(category -> {
+                    CategoryResponse response = categoryMapper.toCategoryResponse(category);
+                    List<CategoryProductResponse> productResponseList = category
+                            .getProductList()
+                            .stream()
+                            .map(product -> productMapper.toCategoryProductResponse(product)).toList();
+                    response.setProductList(productResponseList);
+                    return response;
+                })
+                .toList();
+
+
+        return ResponseEntity.ok(responses);
     }
 
     @PutMapping("/{id}")

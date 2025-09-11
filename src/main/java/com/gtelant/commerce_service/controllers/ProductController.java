@@ -2,6 +2,7 @@ package com.gtelant.commerce_service.controllers;
 
 import com.gtelant.commerce_service.dtos.ProductRequest;
 import com.gtelant.commerce_service.dtos.ProductResponse;
+import com.gtelant.commerce_service.mappers.CategoryMapper;
 import com.gtelant.commerce_service.mappers.ProductMapper;
 import com.gtelant.commerce_service.models.Product;
 import com.gtelant.commerce_service.models.Category;
@@ -25,6 +26,8 @@ public class ProductController {
     private ProductMapper productMapper;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Operation(summary = "Create a new product", description = "Creates a new product and returns the created product")
     @PostMapping
@@ -32,6 +35,9 @@ public class ProductController {
         Category category = categoryService.findById(productRequest.getCategoryId());
         Product product = productMapper.toProduct(productRequest, category);
         Product createdProduct = productService.createProduct(product);
-        return ResponseEntity.ok(productMapper.toProductResponse(createdProduct));
+
+        ProductResponse response= productMapper.toProductResponse(createdProduct);
+        response.setCategory(categoryMapper.toCategoryResponse(createdProduct.getCategory()));
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,17 +1,14 @@
 package com.gtelant.commerce_service.mappers;
 
+import com.gtelant.commerce_service.dtos.CategoryProductResponse;
 import com.gtelant.commerce_service.dtos.ProductRequest;
 import com.gtelant.commerce_service.dtos.ProductResponse;
 import com.gtelant.commerce_service.models.Category;
 import com.gtelant.commerce_service.models.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
-
-    @Autowired
-    private CategoryMapper categoryMapper;
 
     public ProductResponse toProductResponse(Product product) {
         ProductResponse dto = new ProductResponse();
@@ -25,7 +22,6 @@ public class ProductMapper {
         dto.setSales(product.getSales());
         dto.setThumbnailUrl(product.getThumbnailUrl());
         dto.setImageUrl(product.getImageUrl());
-        dto.setCategory(categoryMapper.toCategoryResponse(product.getCategory()));
         return dto;
     }
 
@@ -43,5 +39,12 @@ public class ProductMapper {
         product.setCategory(category);
 
         return product;
+    }
+
+    public CategoryProductResponse toCategoryProductResponse(Product product) {
+        CategoryProductResponse response = new CategoryProductResponse();
+        response.setId(product.getId());
+        response.setReference(product.getReference());
+        return response;
     }
 }
