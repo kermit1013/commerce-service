@@ -7,6 +7,7 @@ import com.gtelant.commerce_service.models.Category;
 import com.gtelant.commerce_service.models.User;
 import com.gtelant.commerce_service.services.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class CategoryController {
     @Autowired
     private ProductMapper productMapper;
 
-    @Operation(summary = "Get all categories", description = "Returns a list of all categories")
+    @Operation(summary = "Get all categories", description = "Returns a list of all categories" , security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
        List<CategoryResponse> responses= categoryService.getAllCategories().stream()
