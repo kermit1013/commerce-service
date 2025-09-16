@@ -16,7 +16,7 @@ public class ReviewMapper {
 
     public ReviewResponse toReviewResponse(Review review) {
         ReviewResponse response = new ReviewResponse();
-        response.setId(response.getId());
+        response.setId(review.getId());
         response.setRating(review.getRating());
         response.setStatus(review.getStatus());
         response.setComment(review.getComment());

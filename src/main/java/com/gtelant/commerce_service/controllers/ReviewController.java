@@ -72,10 +72,10 @@ public class ReviewController {
 
     @Operation(summary = "update review status")
     @PutMapping("/status")
-    public ResponseEntity<ReviewResponse> updateReviewStatus(@RequestBody UpdateReviewStatusRequest request) {
-
-
+    public ResponseEntity<List<ReviewResponse>> updateReviewStatus(@RequestBody UpdateReviewStatusRequest request) {
         List<Review> reviews = reviewService.getReviewsByIds(request.getIds());
+        // id =1 ....
+        // id =2 ...
         if (reviews.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -84,11 +84,15 @@ public class ReviewController {
             review.setStatus(request.getReviewStatus());
             updatedReview.add(review);
         }
-
+        //saveAll
         List<Review> createdReview = reviewService.updateReviews(updatedReview);
-
         //todo 批次更新後回傳型態
-
-        return ResponseEntity.ok(null);
+        List<ReviewResponse> responses = createdReview.stream().map(review -> {
+            ReviewResponse response = reviewMapper.toReviewResponse(review);
+            response.setUser(userMapper.toUserResponse(review.getUser()));
+            response.setProduct(productMapper.toProductResponse(review.getProduct()));
+            return response;
+        }).toList();
+        return ResponseEntity.ok(responses);
     }
 }

@@ -1,6 +1,8 @@
 package com.gtelant.commerce_service.services;
 
+import com.gtelant.commerce_service.enums.ReviewStatus;
 import com.gtelant.commerce_service.models.Review;
+import com.gtelant.commerce_service.models.User;
 import com.gtelant.commerce_service.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,6 @@ public class ReviewService {
     }
 
     public List<Review> updateReviews(List<Review> reviews) {
-        return reviewRepository.saveAll(reviews);
+        return reviewRepository.saveAll(reviews); //2
     }
 }
