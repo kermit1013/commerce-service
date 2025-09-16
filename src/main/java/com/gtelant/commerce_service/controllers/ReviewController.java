@@ -15,6 +15,7 @@ import com.gtelant.commerce_service.services.ProductService;
 import com.gtelant.commerce_service.services.ReviewService;
 import com.gtelant.commerce_service.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
-
+@SecurityRequirement(name = "bearerAuth")
 public class ReviewController {
     @Autowired
     private ReviewMapper reviewMapper;

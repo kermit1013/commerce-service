@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "User", description = "User management APIs")
 public class UserController {
 
@@ -47,7 +48,7 @@ public class UserController {
     }
 
 
-    @Operation(summary = "Get all users pagination", description = "Returns a page of users", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Get all users pagination", description = "Returns a page of users")
     @GetMapping("/page")
     public Page<UserResponse> getAllUsersPage(
             @RequestParam(defaultValue = "0") int page,
