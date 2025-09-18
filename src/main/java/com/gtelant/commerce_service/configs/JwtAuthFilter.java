@@ -44,11 +44,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String jwtToken = authHeader.substring(7);
             String email = jwtService.getEmailFromToken(jwtToken);
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                // db裡面找到對應的username
+                // db裡面AuthUser 表 找到對應的email -> db connection start -> auth user -> db connection stop
                 Optional<User> user = userRepository.findByEmail(email);
+                //AUTH USER
+//                id	int, primary
+//                email	string
+//                password	string
+//                role string
+//                created_at	date_time
+//                deleted_at	date_time
+
                 if (user.isPresent()) {
                     //*** 若使用Spring Security (library)必須包含 授權 (Authorization)邏輯->「該用戶能做什麼？」***
                     List<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.get().getRole()));
+                    //auth_user.get()-> auth_user.toString() -> 取得 userSegment -> 但是userSegment 為Lazy Fetch -> trying to fetch from db...
                     //該token並非jwt token，而是Spring Security內部使用的token(包含user & authorities)
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.get(), null, authorities);
                     // 將 內部使用的token 投進 Spring Security 認證箱（SecurityContextHolder）
