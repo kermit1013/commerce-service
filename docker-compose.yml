@@ -24,7 +24,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: kermitpassword
       # Compose 啟動時會自動建立名為 commerce_db 的資料庫
       MYSQL_DATABASE: commerce_db
     # 將資料庫資料持久化儲存，避免容器刪除後資料遺失
